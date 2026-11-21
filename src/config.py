@@ -12,7 +12,7 @@ MODEL_PATH = OUTPUT_DIR / "resnet18_nasa_bps.pth"
 # NASA Public S3 Bucket
 S3_BUCKET = "nasa-bps-training-data"
 S3_PREFIX = "Microscopy/"
-S3_META_KEY = "Microscopy/train/meta.csv"  # Adjust if ls shows Microscopy/meta.csv
+S3_META_KEY = "Microscopy/train/meta.csv" 
 
 # Metadata column mapping (verify against your downloaded meta.csv)
 COL_FILENAME = "filename"

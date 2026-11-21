@@ -37,7 +37,7 @@ def main():
     val_tfms = get_transforms(is_train=False)
     fig, axes = plt.subplots(2, 3, figsize=(12, 8))
 
-    for idx, row in samples.iterrows():
+    for idx, row in samples.iterrows(): 
         img_path = config.IMG_DIR / row[config.COL_FILENAME]
         rgb_float = load_raw_rgb(img_path)
 
