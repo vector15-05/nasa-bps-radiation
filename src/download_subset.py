@@ -28,10 +28,12 @@ def main():
 
     # Keep only Fe and X-ray classes and sample evenly
     df_filtered = df[df[config.COL_PARTICLE].isin(["Fe", "X-ray"])].copy()
-    subset_df = (
-        df_filtered.groupby(config.COL_PARTICLE, group_keys=False)
-        .apply(lambda x: x.sample(min(len(x), config.SAMPLES_PER_CLASS), random_state=config.SEED))
-        .reset_index(drop=True)
+    subset_df = pd.concat(
+        [
+            group.sample(min(len(group), config.SAMPLES_PER_CLASS), random_state=config.SEED)
+            for _, group in df_filtered.groupby(config.COL_PARTICLE)
+        ],
+        ignore_index=True,
     )
     subset_df.to_csv(config.SUBSET_META_PATH, index=False)
     print(f"Saved subset metadata ({len(subset_df)} images) to {config.SUBSET_META_PATH}")
