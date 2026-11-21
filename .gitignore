@@ -1,4 +1,37 @@
-.venv/
+# Raw NASA S3 data & metadata
 data/
+*.tif
+*.tiff
+
+# Trained model weights (too large for standard git)
 *.pth
+*.pt
+*.ckpt
+*.onnx
+
+# Python virtual environments & bytecode
+.venv/
+venv/
+env/
 __pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Jupyter & experiment logs
+.ipynb_checkpoints/
+*.log
+wandb/
+
+# Secrets & environment variables
+.env
+.env.*
+
+# Editor & OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
