@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import models
-from sklearn.model_selection import GroupShuffleSplit
+from sklearn.model_selection import StratifiedGroupKFold
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, ConfusionMatrixDisplay
 from tqdm import tqdm
 
@@ -80,10 +80,11 @@ def main():
     # Extract biological plate ID from filename to prevent slide-level data leakage
     df[config.COL_GROUP] = df[config.COL_FILENAME].str.split("-").str[0]
 
-    splitter = GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=config.SEED)
-    train_idx, val_idx = next(splitter.split(df, groups=df[config.COL_GROUP]))
+    splitter = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=config.SEED)
+    train_idx, val_idx = next(splitter.split(df, df[config.COL_PARTICLE], groups=df[config.COL_GROUP]))
     train_df = df.iloc[train_idx].reset_index(drop=True)
     val_df = df.iloc[val_idx].reset_index(drop=True)
+    print("Val class counts:\n", val_df[config.COL_PARTICLE].value_counts())
 
     train_loader = DataLoader(
         NASACellDataset(train_df, config.IMG_DIR, get_transforms(is_train=True)),
